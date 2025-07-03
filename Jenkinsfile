@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9-slim'
-        }
-    }
+    agent any
 
     environment {
         EC2_HOST = '54.234.136.145'        // Your EC2 IP
@@ -14,19 +10,27 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Sammm333/jenkins-pipeline-flask.git'  // ✔️ Correct repo URL
+                git 'https://github.com/Sammm333/jenkins-pipeline-flask.git'  // Correct repo URL
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                script {
+                    docker.image('python:3.9-slim').inside {
+                        sh 'pip install -r requirements.txt'
+                    }
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'python -m unittest'
+                script {
+                    docker.image('python:3.9-slim').inside {
+                        sh 'python -m unittest'
+                    }
+                }
             }
         }
 
