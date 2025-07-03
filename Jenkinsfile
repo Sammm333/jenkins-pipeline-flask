@@ -2,16 +2,16 @@ pipeline {
     agent any
 
     environment {
-        EC2_HOST = '54.234.136.145'        // Your EC2 IP
-        EC2_USER = 'ec2-user'              // Your EC2 username
-        IMAGE = 'samvelll/flask-app:latest' // Your Docker image name
+        EC2_HOST = '54.234.136.145'
+        EC2_USER = 'ec2-user'
+        IMAGE = 'samvelll/flask-app:latest'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/Sammm333/jenkins-pipeline-flask.git'  // ✔️ Correct repo URL
+                echo "✅ Jenkins already checked out the repo"
             }
         }
 
