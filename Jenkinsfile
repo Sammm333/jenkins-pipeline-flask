@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Sammm333/jenkins-pipeline-flask.git'  // Correct repo URL
+                git branch: 'main', credentialsId: 'ec2-ssh-key', url: 'https://github.com/Sammm333/jenkins-pipeline-flask.git'
             }
         }
 
