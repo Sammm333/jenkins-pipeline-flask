@@ -16,21 +16,17 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    docker.image('python:3.9-slim').inside {
-                        sh 'pip install -r requirements.txt'
-                    }
-                }
+                sh '''
+                    docker run --rm -v $(pwd):/app -w /app python:3.9-slim pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    docker.image('python:3.9-slim').inside {
-                        sh 'python -m unittest'
-                    }
-                }
+                sh '''
+                    docker run --rm -v $(pwd):/app -w /app python:3.9-slim python -m unittest
+                '''
             }
         }
 
