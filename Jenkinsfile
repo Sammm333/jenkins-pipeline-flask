@@ -2,35 +2,28 @@ pipeline {
     agent any
 
     environment {
-        EC2_HOST = '54.234.136.145'        // Your EC2 IP
-        EC2_USER = 'ec2-user'              // Your EC2 username
-        IMAGE = 'samvelll/flask-app:latest' // Your Docker image name
+        EC2_HOST = '54.234.136.145'
+        EC2_USER = 'ec2-user'
+        IMAGE = 'samvelll/flask-app:latest'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'ec2-ssh-key', url: 'https://github.com/Sammm333/jenkins-pipeline-flask.git'
+                echo "✅ Jenkins already checked out the repo"
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    docker.image('python:3.9-slim').inside {
-                        sh 'pip install -r requirements.txt'
-                    }
-                }
+                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    docker.image('python:3.9-slim').inside {
-                        sh 'python -m unittest'
-                    }
-                }
+                sh 'python -m unittest'
             }
         }
 
